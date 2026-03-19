@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model MarketSnapshot {
+  id          String   @id @default(cuid())
+  coinId      String
+  symbol      String
+  name        String
+  price       Float
+  change24h   Float
+  change7d    Float?
+  volume24h   Float
+  marketCap   Float
+  ath         Float?
+  athChange   Float?
+  rsi         Float?
+  trend       String   // BULLISH | BEARISH | NEUTRAL
+  createdAt   DateTime @default(now())
+
+  @@index([coinId, createdAt])
+  @@map("market_snapshots")
+}
+
+model NewsItem {
+  id          String   @id @default(cuid())
+  title       String
+  url         String   @unique
+  source      String
+  summary     String?
+  sentiment   String   // POSITIVE | NEGATIVE | NEUTRAL
+  relevance   Float    @default(0)
+  publishedAt DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([publishedAt])
+  @@map("news_items")
+}
+
+model Signal {
+  id            String   @id @default(cuid())
+  coinId        String
+  symbol        String
+  direction     String   // LONG | SHORT | NEUTRAL
+  score         Float
+  confidence    String   // HIGH | MEDIUM | LOW
+  entryPrice    Float
+  targetPrice   Float
+  stopLoss      Float
+  riskReward    Float
+  reasoning     String
+  published     Boolean  @default(false)
+  publishedAt   DateTime?
+  telegramMsgId Int?
+  createdAt     DateTime @default(now())
+  expiresAt     DateTime
+
+  @@index([coinId, createdAt])
+  @@index([published])
+  @@map("signals")
+}
+
+model HealthLog {
+  id          String   @id @default(cuid())
+  status      String   // OK | DEGRADED | DOWN
+  latencyMs   Int
+  details     Json?
+  createdAt   DateTime @default(now())
+
+  @@map("health_logs")
+}
