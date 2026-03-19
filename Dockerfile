@@ -23,7 +23,7 @@ ENV NODE_ENV=production
 COPY package*.json ./
 COPY prisma ./prisma/
 
-RUN npm ci --frozen-lockfile --omit=dev
+RUN npm install --omit=dev
 RUN npx prisma generate
 
 COPY --from=builder /app/dist ./dist
