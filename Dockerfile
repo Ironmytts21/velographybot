@@ -7,7 +7,7 @@ COPY package*.json ./
 COPY tsconfig.json ./
 COPY prisma ./prisma/
 
-RUN npm ci --frozen-lockfile
+RUN npm install
 RUN npx prisma generate
 
 COPY src ./src
