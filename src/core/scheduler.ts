@@ -1,3 +1,4 @@
+// @ts-ignore
 import cron from 'node-cron';
 import { createChildLogger } from './logger';
 
