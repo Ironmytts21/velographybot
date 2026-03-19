@@ -37,8 +37,7 @@ bot.on('message', (ctx) => {
 export async function sendSignalMessage(text: string): Promise<number> {
   const result = await bot.telegram.sendMessage(env.TELEGRAM_CHANNEL_ID, text, {
     parse_mode: 'Markdown',
-    disable_web_page_preview: true,
-  });
+    ;
   log.info({ messageId: result.message_id, channelId: env.TELEGRAM_CHANNEL_ID }, 'Message sent');
   return result.message_id;
 }
